@@ -1,0 +1,41 @@
+{
+  "name": "docs_release_next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "src_build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.0",
+    "@auth/prisma-adapter": "^2.2.0",
+    "@prisma/client": "^5.15.1",
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.12.0",
+    "@types/bcryptjs": "^2.4.6",
+    "antd": "^5.18.1",
+    "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.11",
+    "next": "14.2.4",
+    "next-auth": "^5.0.0-beta.19",
+    "otplib": "^12.0.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4",
+    "postcss": "^8",
+    "prisma": "^5.15.1",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

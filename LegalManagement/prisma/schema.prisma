@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String     @id @default(cuid())
+  email           String     @unique
+  password        String
+  role            String     @default("user")
+  company_role    String     @default("staff")
+  fa_secret       String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  Profile         Profile[]
+  Document_upload Document[] @relation(name: "UserUploadDocs")
+  Document_sign   Document[] @relation(name: "UserSignDocs")
+  Team            Team?      @relation(fields: [teamId], references: [id])
+  teamId          String?
+  TeamLeader      Team[]     @relation(name: "LeaderTeam")
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  fullName  String
+  phone     String?
+  address   String?
+  avatar    String?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Team {
+  id        String           @id @default(cuid())
+  name      String
+  members   User[]
+  leader    User             @relation(name: "LeaderTeam", fields: [leader_id], references: [id])
+  leader_id String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  documents TeamOnDocument[]
+}
+
+model Document {
+  id             String           @id @default(cuid())
+  user_upload    User             @relation(name: "UserUploadDocs", fields: [user_upload_id], references: [id])
+  user_upload_id String
+  user_sign      User             @relation(name: "UserSignDocs", fields: [user_sign_id], references: [id])
+  user_sign_id   String
+  title          String
+  desc           String
+  doc_url        String
+  status         String           @default("pending")
+  is_signed      Boolean          @default(false)
+  teams          TeamOnDocument[]
+  team_id        String?
+  hash           String
+  sign_code      String?
+  sign_date      DateTime?
+  expires        DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model TeamOnDocument {
+  team        Team     @relation(fields: [team_id], references: [id])
+  team_id     String
+  document    Document @relation(fields: [document_id], references: [id])
+  document_id String
+
+  @@id([team_id, document_id])
+}
